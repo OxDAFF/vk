@@ -11,7 +11,6 @@ app.set('port', (process.env.PORT || 5000));
 app.use(express.static(__dirname + '/public'));
 
 
-
  
 /**
  * Request server methods
@@ -28,7 +27,9 @@ vk.setSecureRequests(true);
  
 // Request server API method 
 vk.request('secure.getSMSHistory', {}, function(_dd) {
-    console.log(_dd);
+    app.get('/', function(request, response) {
+      response.send(_dd);
+    });
 });
  
 /**
@@ -39,15 +40,12 @@ vk.setToken(access_token);
  
 // Request 'users.get' method 
 vk.request('users.get', {'user_id' : 1}, function(_o) {
-    console.log(_o);
+    app.get('/', function(request, response) {
+      response.send(_o);
+    });
 });
 // views is directory for all template files
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
 
-app.get('/', function(request, response) {
-  response.render('pages/index');
-});
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
