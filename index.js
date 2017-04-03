@@ -26,24 +26,21 @@ vk.on('serverTokenReady', function(_o) {
 vk.setSecureRequests(true);
  
 // Request server API method 
-vk.request('secure.getSMSHistory', {}, function(_dd) {
-    app.get('/', function(request, response) {
-      response.send(_dd);
+app.get('/', function(req, res) {
+    vk.request('secure.getSMSHistory', {}, function(_dd) {
+      res.send(_dd);
     });
+   vk.setToken(access_token)
+   vk.request('users.get', {'user_id' : 1}, function(_o) {
+      res.send(_o);
+   });
 });
  
 /**
  * Request client methods
  */
 // First you have to pass access_token from client side JS code 
-vk.setToken(access_token);
- 
-// Request 'users.get' method 
-vk.request('users.get', {'user_id' : 1}, function(_o) {
-    app.get('/', function(request, response) {
-      response.send(_o);
-    });
-});
+
 // views is directory for all template files
 
 
