@@ -8,25 +8,23 @@ var vk = new VK({
 });
 app.set('port', (process.env.PORT || 5000));
 
-app.use(express.static(__dirname + '/public'));
-
 
  
 /**
  * Request server methods
  */
- 
+app.get('/', function(req, res) {
 // Setup server access token for server API methods 
-vk.on('serverTokenReady', function(_o) {
+    vk.on('serverTokenReady', function(_o) {
     // Here will be server access token 
-    vk.setToken(_o.access_token);
-});
+        vk.setToken(_o.access_token);
+    });
  
 // Turn on requests with access tokens 
-vk.setSecureRequests(true);
+    vk.setSecureRequests(true);
  
 // Request server API method 
-app.get('/', function(req, res) {
+
     vk.request('secure.getSMSHistory', {}, function(_dd) {
       res.send(_dd);
     });
